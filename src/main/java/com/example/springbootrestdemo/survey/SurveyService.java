@@ -40,6 +40,6 @@ public class SurveyService {
     }
 
     public List<Survey> retrieveSurveyById(String surveyId) {
-        return surveys.stream().filter((survey -> survey.getId().equals(surveyId))).toList();
+        return surveys.stream().filter((survey -> survey.getId().equalsIgnoreCase(surveyId))).toList();
     }
 }
