@@ -28,10 +28,18 @@ public class SurveyService {
         Survey survey = new Survey("Survey1", "My Favorite Survey",
                 "Description of the Survey", questions);
 
+        Survey survey2 = new Survey("Survey2", "My Favorite Survey2",
+                "Description of the Survey2", questions);
+
         surveys.add(survey);
+        surveys.add(survey2);
     }
 
     public List<Survey> retrieveAllSurveys() {
         return surveys;
+    }
+
+    public List<Survey> retrieveSurveyById(String surveyId) {
+        return surveys.stream().filter((survey -> survey.getId().equals(surveyId))).toList();
     }
 }

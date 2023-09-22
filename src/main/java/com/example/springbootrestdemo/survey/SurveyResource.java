@@ -1,5 +1,6 @@
 package com.example.springbootrestdemo.survey;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +22,10 @@ public class SurveyResource {
     public List<Survey>  retrieveAllSurveys(){
         return surveyService.retrieveAllSurveys();
 
+    }
+
+    @RequestMapping("/surveys/{surveyId}")
+    public List<Survey> retrieveSurveyById(@PathVariable String surveyId){
+        return surveyService.retrieveSurveyById(surveyId);
     }
 }
