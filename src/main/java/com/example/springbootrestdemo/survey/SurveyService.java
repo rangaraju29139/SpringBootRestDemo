@@ -39,6 +39,13 @@ public class SurveyService {
         surveys.add(survey2);
     }
 
+    public  List<Question> retrieveAllQuestionsBySurveyId(String surveyId) {
+        Survey survey = retrieveSurveyById(surveyId);
+        if(survey==null) {return null;}
+        return survey.getQuestions();
+
+    }
+
     public List<Survey> retrieveAllSurveys() {
         return surveys;
     }
