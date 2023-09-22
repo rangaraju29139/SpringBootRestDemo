@@ -1,10 +1,14 @@
 package com.example.springbootrestdemo.survey;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 
 @Service
@@ -39,7 +43,16 @@ public class SurveyService {
         return surveys;
     }
 
-    public List<Survey> retrieveSurveyById(String surveyId) {
-        return surveys.stream().filter((survey -> survey.getId().equalsIgnoreCase(surveyId))).toList();
+    public Survey retrieveSurveyById(String surveyId) {
+
+        Predicate<? super Survey> predicate =
+                survey -> survey.getId().equalsIgnoreCase(surveyId);
+
+        Optional<Survey> optionalSurvey
+                = surveys.stream().filter(predicate).findFirst();
+
+        if(optionalSurvey.isEmpty()) return null;
+
+        return optionalSurvey.get();
     }
 }
