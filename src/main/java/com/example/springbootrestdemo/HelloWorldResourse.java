@@ -1,16 +1,25 @@
 package com.example.springbootrestdemo;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
-@Controller
+@RestController
 public class HelloWorldResourse {
 
     @RequestMapping("/hello-world")
-    @ResponseBody
+
     public String helloWorld(){
         return "Hello World!!";
+    }
+
+    @RequestMapping("/hello-world-bean")
+    public HelloWorldBean helloWorldBean(){
+        return  new HelloWorldBean("Hey!! this is the message from hello world");
+    }
+
+    @RequestMapping("/hello-world-path-param/{name}/message/{message}")
+    public HelloWorldBean helloWorldPathParam(@PathVariable String name, @PathVariable String message){
+        return new HelloWorldBean("helloworld"+" "+name+" "+ message);
     }
 }
