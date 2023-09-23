@@ -2,6 +2,7 @@ package com.example.springbootrestdemo.survey;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -61,5 +62,25 @@ public class SurveyService {
         if(optionalSurvey.isEmpty()) return null;
 
         return optionalSurvey.get();
+    }
+
+    public Question retrieveQuestionByQuestionId(String surveyId, String questionId) {
+        Survey survey = retrieveSurveyById(surveyId);
+        if(survey == null) return null;
+        Predicate<? super Question> questionPredicate = (question) -> question.getId().equals(questionId);
+
+
+        Optional<Question> question = survey.getQuestions().stream().filter(questionPredicate).findFirst();
+        if(question.isPresent()) {
+            return question.get();
+        }
+        return null;
+
+    }
+
+
+    public void addNewSurveyQuestion(String surveyId, Question question) {
+        List<Question> questions =retrieveAllQuestionsBySurveyId(surveyId);
+        questions.add(question);
     }
 }

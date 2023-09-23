@@ -1,9 +1,7 @@
 package com.example.springbootrestdemo.survey;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -30,13 +28,13 @@ public class SurveyResource {
     public Survey retrieveSurveyById(@PathVariable String surveyId){
         Survey survey = surveyService.retrieveSurveyById(surveyId);
 
-        if(survey==null)
+        if(survey==null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
+        }
         return survey;
     }
 
-    @RequestMapping("/surveys/{surveyId}/questions")
+    @RequestMapping(value = "/surveys/{surveyId}/questions")
     public List<Question> retrieveAllQuestionsBySurveyId(@PathVariable String surveyId){
         List<Question> questions = surveyService.retrieveAllQuestionsBySurveyId(surveyId);
         if(questions==null){
@@ -44,5 +42,21 @@ public class SurveyResource {
         }
 
         return questions;
+    }
+
+    @RequestMapping("/surveys/{surveyId}/questions/{questionId}")
+    public Question retrieveQuestionByQuestionId(@PathVariable String surveyId,@PathVariable String questionId){
+        Question question = surveyService.retrieveQuestionByQuestionId(surveyId,questionId);
+        if(question == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        }
+        return question;
+
+    }
+
+    @RequestMapping(value = "/surveys/{surveyId}/questions",method = RequestMethod.POST)
+    public void addNewSurveyQuestion(@PathVariable String surveyId, @RequestBody Question question){
+      surveyService.addNewSurveyQuestion(surveyId,question);
     }
 }
