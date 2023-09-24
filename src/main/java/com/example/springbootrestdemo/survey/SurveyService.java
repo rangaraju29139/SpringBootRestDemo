@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,8 +81,12 @@ public class SurveyService {
     }
 
 
-    public void addNewSurveyQuestion(String surveyId, Question question) {
+    public String addNewSurveyQuestion(String surveyId, Question question) {
         List<Question> questions =retrieveAllQuestionsBySurveyId(surveyId);
+        SecureRandom secureRandom = new SecureRandom();
+        String randomId = new BigInteger(32,secureRandom).toString();
+        question.setId(randomId);
         questions.add(question);
+        return randomId;
     }
 }
